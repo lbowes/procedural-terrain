@@ -1,4 +1,4 @@
-cmake_minimum_required(3.17)
+cmake_minimum_required(VERSION 3.17)
 project(procedural-terrain)
 
 add_executable(procedural-terrain
@@ -13,6 +13,6 @@ add_executable(procedural-terrain
     src/TerrainGame.cpp
 )
 
-target_include_directories(procedural-terrain PUBLIC_HEADER
+target_include_directories(procedural-terrain PUBLIC
     include
 )
