@@ -32,7 +32,7 @@ public:
 
 	void changePosition(int offsetX, int offsetZ);
 	bool insideSameLOD();
-	
+
 	inline std::vector<float>& getHeightsArray() { return mHeights; }
 	static unsigned int getMaxNumSquares() { return mMaxNumSquares; }
 	double getPerlinValue(int target);
