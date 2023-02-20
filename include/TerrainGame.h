@@ -7,7 +7,8 @@
 #include "Player/Player.h"
 
 #define DEBUG 0
-#define PERSPECTIVE_CAM 1	
+#define PERSPECTIVE_CAM 1
+
 
 class TerrainGame : public Framework::Application {
 private:
@@ -34,5 +35,6 @@ public:
 	void manageInput();
 
 };
+
 
 #endif
