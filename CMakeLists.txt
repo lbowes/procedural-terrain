@@ -16,7 +16,7 @@ set(SOURCES
 add_library(pt-lib STATIC ${SOURCES})
 target_include_directories(pt-lib PRIVATE include)
 
-add_executable(pt-app PRIVATE main.cpp)
+add_executable(pt-app src/main.cpp)
 target_link_libraries(pt-app pt-lib)
 
 set(PT_HEADERS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
