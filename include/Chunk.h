@@ -2,12 +2,6 @@
 #define CHUNK_H
 #pragma once
 
-#include <glm/glm/vec3.hpp>
-#include <glm/glm/mat4x4.hpp>
-#include <glm/glm/gtx/transform.hpp>
-#include <functional>
-
-#include "Maths/Noise.h"
 
 #define FLAT_TERRAIN 0
 

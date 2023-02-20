@@ -1,13 +1,21 @@
-#include "Chunk.h"
-#include "Utils/ConsoleLogger.h"	
+#include "Chunk.h"
+#include "Maths/Noise.h"
+#include "Utils/ConsoleLogger.h"
 #include "Utils/Timer.h"
 
+#include <glm/glm/vec3.hpp>
+#include <glm/glm/mat4x4.hpp>
+#include <glm/glm/gtx/transform.hpp>
+#include <functional>
+
+
 const int Chunk::mMaxNumSquares;
+
 
 Chunk::Chunk(int positionInWorldX, int positionInWorldZ) :
 	mXPositionInWorld(positionInWorldX),
 	mZPositionInWorld(positionInWorldZ)
-{	
+{
 	mHeights.resize((mMaxNumSquares + 1) * (mMaxNumSquares + 1));
 	mNormals.resize((mMaxNumSquares + 1) * (mMaxNumSquares + 1) * 3);
 
@@ -15,9 +23,10 @@ Chunk::Chunk(int positionInWorldX, int positionInWorldZ) :
 	updateInnerNormals();
 }
 
+
 void Chunk::updateHeightsArray() {
 	unsigned int xElement = 0, zElement = 0, mainIndex = 0;
-	
+
 	for (int x = mXPositionInWorld - mMaxNumSquares / 2; x <= mXPositionInWorld + mMaxNumSquares / 2; x++) {
 		for (int z = mZPositionInWorld - mMaxNumSquares / 2; z <= mZPositionInWorld + mMaxNumSquares / 2; z++) {
 			xElement = (x - mXPositionInWorld + (mMaxNumSquares / 2)) * (mMaxNumSquares + 1);
@@ -33,7 +42,8 @@ void Chunk::updateHeightsArray() {
 				mLowestPoint = mHeights[mainIndex];
 		}
 	}
-}					   
+}
+
 
 void Chunk::updateInnerNormals() {
 	glm::vec3 normal(0.0f);
@@ -77,6 +87,7 @@ void Chunk::updateInnerNormals() {
 	}
 }
 
+
 void Chunk::recieveNewData(Chunk* from) {
 	mHeights = from->mHeights;
 	mNormals = from->mNormals;
@@ -84,10 +95,12 @@ void Chunk::recieveNewData(Chunk* from) {
 	mLowestPoint = from->mLowestPoint;
 }
 
+
 void Chunk::changePosition(int offsetChunkPositionX, int offsetChunkPositionZ) {
 	mXPositionInWorld += offsetChunkPositionX * mMaxNumSquares;
 	mZPositionInWorld += offsetChunkPositionZ * mMaxNumSquares;
 }
+
 
 bool Chunk::insideSameLOD() {
 #if 0
@@ -115,6 +128,7 @@ bool Chunk::insideSameLOD() {
 	return false;
 }
 
+
 double Chunk::getPerlinValue(int target) {
 	double dChunkWidth = static_cast<double>(mMaxNumSquares);
 
@@ -124,17 +138,18 @@ double Chunk::getPerlinValue(int target) {
 	return floor + wayThroughChunk;
 }
 
+
 double Chunk::getTerrainHeight(int x, int z) {
 #if !FLAT_TERRAIN
 #if 0
 	using namespace Framework::Maths;
 
-	double 
-		perlinCorrectX = getPerlinValue(x), 
-		perlinCorrectZ = getPerlinValue(z), 
-		total = 0, 
-		amplitude = 0, 
-		frequency = 0, 
+	double
+		perlinCorrectX = getPerlinValue(x),
+		perlinCorrectZ = getPerlinValue(z),
+		total = 0,
+		amplitude = 0,
+		frequency = 0,
 		addition = 0;
 
 	//Huge flat undulating terrain height
