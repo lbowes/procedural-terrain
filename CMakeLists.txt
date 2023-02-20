@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.17)
 project(procedural-terrain)
 
-add_executable(procedural-terrain
+set(SOURCES
     src/Chunk.cpp
     src/ChunkManager.cpp
     src/Environment.cpp
-    src/main.cpp
     src/Player.cpp
     src/RenderableChunk.cpp
     src/Sun.cpp
@@ -13,6 +12,13 @@ add_executable(procedural-terrain
     src/TerrainGame.cpp
 )
 
-target_include_directories(procedural-terrain PUBLIC
-    include
-)
+
+add_library(pt-lib STATIC ${SOURCES})
+target_include_directories(pt-lib PRIVATE include)
+
+add_executable(pt-app PRIVATE main.cpp)
+target_link_libraries(pt-app pt-lib)
+
+set(PT_HEADERS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+add_subdirectory(tests)
